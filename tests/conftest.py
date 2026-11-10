@@ -13,7 +13,7 @@ def synthetic_df() -> pd.DataFrame:
     contract = rng.choice(["Month-to-month", "One year", "Two year"], n, p=[0.6, 0.2, 0.2])
     churn_p = 0.1 + 0.4 * (contract == "Month-to-month") - 0.003 * tenure
     churn = np.where(rng.random(n) < np.clip(churn_p, 0.02, 0.9), "Yes", "No")
-    yn = lambda: rng.choice(["Yes", "No"], n)  # noqa: E731
+    yn = lambda: rng.choice(["Yes", "No"], n)  
     total = (tenure * monthly).round(2).astype(str)
     total = np.where(tenure == 0, " ", total)  # the real data has blank TotalCharges
     return pd.DataFrame({
