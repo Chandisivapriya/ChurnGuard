@@ -1,0 +1,17 @@
+data:
+  raw_path: data/raw/Telco-Customer-Churn.csv   # download from Kaggle (not committed)
+  target: Churn
+  id_column: customerID
+split:
+  test_size: 0.2
+  random_state: 5
+model:
+  candidates: [logistic_regression, gradient_boosting, mlp]   # add "keras_ann" once you port your ANN
+  selection_metric: pr_auc
+cost:
+  # Business assumption: losing a customer costs more than a retention offer.
+  false_negative: 500   # missed churner (lost customer value)
+  false_positive: 50    # unnecessary retention offer
+output:
+  model_path: models/churn_model.joblib
+  metrics_path: models/metrics.json
