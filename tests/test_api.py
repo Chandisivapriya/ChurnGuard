@@ -1,14 +1,17 @@
 import pytest
 
-pytest.importorskip("fastapi")
-from fastapi.testclient import TestClient  # noqa: E402
+testclient = pytest.importorskip("fastapi.testclient")
 
-from churnguard.api import app  # noqa: E402
+
+def _client():
+    from churnguard.api import app
+
+    return testclient.TestClient(app)
 
 
 def test_health():
-    assert TestClient(app).get("/health").json() == {"status": "ok"}
+    assert _client().get("/health").json() == {"status": "ok"}
 
 
 def test_predict_rejects_invalid_payload():
-    assert TestClient(app).post("/predict", json={"tenure": -5}).status_code == 422
+    assert _client().post("/predict", json={"tenure": -5}).status_code == 422
